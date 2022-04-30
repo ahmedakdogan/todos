@@ -12,7 +12,7 @@ function TodoList() {
     const error = useSelector((state: any) => state.todos.error);
 
     useEffect(() => {
-        dispatch(getTodosAsync() as any);
+         dispatch(getTodosAsync() as any);
     }, [dispatch]);
 
     const handleDestroy = (id: any) => {
