@@ -14,3 +14,13 @@ export const addTodosAsync = createAsyncThunk("todos/addTodos", async (data: any
     const result = await axios.post("http://localhost:7000/todos", data);
     return result.data;
 });
+
+export const toggleTodoAsync = createAsyncThunk("todos/toggleTodoAsync", async ({id,data}:any) => {
+    const result = await axios.patch("http://localhost:7000/todos/"+id, data);
+    return result.data;
+});
+
+export const removeTodoAsync = createAsyncThunk("todos/removeTodoAsync", async (id:any) => {
+    await axios.delete("http://localhost:7000/todos/"+id);
+    return id;
+});

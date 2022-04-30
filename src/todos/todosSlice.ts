@@ -2,7 +2,7 @@ import {
     createSlice,
     // nanoid 
 } from "@reduxjs/toolkit";
-import { addTodosAsync, getTodosAsync } from "../api/service";
+import { addTodosAsync, getTodosAsync, removeTodoAsync, toggleTodoAsync } from "../api/service";
 
 // export const getTodosAsync = createAsyncThunk("todos/getTodosAsync",async () =>{
 //     // --- with fetch ---
@@ -38,15 +38,15 @@ export const todosSlice = createSlice({
         //         };
         //     }
         // },
-        changeToggle: (state, action) => {
-            const { id } = action.payload;
-            const item: any = state.items.find((f: any) => f.id === id);
-            item!.completed = !item!.completed;
-        },
-        destroy: (state, action) => {
-            const id = action.payload;
-            state.items = state.items.filter((f: any) => f.id !== id);
-        },
+        // changeToggle: (state, action) => {
+        //     const { id } = action.payload;
+        //     const item: any = state.items.find((f: any) => f.id === id);
+        //     item!.completed = !item!.completed;
+        // },
+        // destroy: (state, action) => {
+        //     const id = action.payload;
+        //     state.items = state.items.filter((f: any) => f.id !== id);
+        // },
         changeActiveKey: (state, action) => {
             state.activeKey = action.payload;
         },
@@ -79,7 +79,20 @@ export const todosSlice = createSlice({
         [addTodosAsync.rejected as any]: (state, action) => {
             state.isLoadingAdd = false;
             state.error = action.error.message;
-        }
+        },
+
+        // change toggle
+        [toggleTodoAsync.fulfilled as any]: (state, action) => {
+            const { id, completed } = action.payload;
+            const index = state.items.findIndex((f) => f.id === id);
+            state.items[index].completed = completed;
+        },
+
+        // change toggle
+        [removeTodoAsync.fulfilled as any]: (state, action) => {
+            const id = action.payload;
+            state.items = state.items.filter((f: any) => f.id !== id);
+        },
     }
 });
 
@@ -94,8 +107,8 @@ export const selectFilteredTodos = (state: any) => {
 }
 export const {
     // addTodo, 
-    changeToggle,
-    destroy,
+    // changeToggle,
+    // destroy,
     changeActiveKey,
     clearCompleted } = todosSlice.actions;
 export default todosSlice.reducer;
