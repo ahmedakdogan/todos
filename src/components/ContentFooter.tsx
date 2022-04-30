@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeActiveKey, clearCompleted,selectTodos } from "../todos/todosSlice";
 
@@ -8,6 +9,11 @@ function ContentFooter() {
     const itemsLeftCount = items.filter((f: any) => !f.completed).length;
 
     const activeKey = useSelector((state: any) => state.todos.activeKey);
+
+    useEffect(()=>{
+        localStorage.setItem("activeKey",activeKey); 
+    },[activeKey]);
+
     return (
         <footer className="footer">
             <span className="todo-count">

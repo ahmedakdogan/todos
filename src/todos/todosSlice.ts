@@ -18,7 +18,7 @@ export const todosSlice = createSlice({
     name: "todos",
     initialState: {
         items: [] as any[],
-        activeKey: "all",
+        activeKey: localStorage.getItem("activeKey"),
         isLoading: false,
         isLoadingAdd: false,
         error: null,
